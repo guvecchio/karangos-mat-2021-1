@@ -22,6 +22,14 @@
     1. Converta os códigos comentados abaixo em componentes de função
     **********************************************************************************/
 
+    function PrimeiroComponente({onInputChange}) {
+      return (
+        <div className="input-set">
+          <label htmlFor="area">Área (km²)</label>
+          <input id="area" type="number" onChange={onInputChange} />
+        </div>   
+      )
+    }
     /* PRIMEIRO COMPONENTE 
       <div class="input-set">
         <label for="area">Área (km²)</label>
@@ -29,31 +37,29 @@
       </div>
     */
 
-  function CompArea ({id, textoLabel, quandoAlterado}){
-    return (
-      <div className="input-set">
-        <label htmlFor={id}>{textoLabel}</label>
-        <input id={id} type="number" onChange={quandoAlterado}/>
-      </div>
-    )
-  }
-
-    /* SEGUNDO COMPONENTE 
+    function SegundoComponente({onInputChange}) {
+      return (
+        <div className="input-set">
+          <label htmlFor="pop">População</label>
+          <input id="pop" type="number" onChange={onInputChange} />
+        </div>     
+      )
+    }
+     /* SEGUNDO COMPONENTE 
       <div class="input-set">
         <label for="pop">População</label>
         <input id="pop" type="number" />
       </div>
     */
 
-  function CompPopulacao ({id, textoLabel, quandoAlterado}){
-    return (
-      <div className="input-set">
-        <label htmlFor={id}>{textoLabel}</label>
-        <input id={id} type="number" onChange={quandoAlterado}/>
-      </div>
-    )
-  }
-
+    function TerceiroComponente({densidadePop, categoria}) {
+      return (
+        <div className="result">
+          <div>Densidade populacional: {densidadePop} hab/km²</div>
+          <div>Categoria: <b>{categoria}</b></div>
+        </div>        
+      )
+    }
     /* TERCEIRO COMPONENTE 
       <div class="result">
         <div>Densidade populacional:</div>
@@ -61,47 +67,18 @@
       </div>
     */
 
-  function CompResult ({densPop, catDens}){
-    return (
-      <div className="result">
-        <div className="result">Densidade Populacional: {densPop} </div>
-        <div className="result">Categoria:<br /><strong>{catDens}</strong></div>
-      </div>
-    )
-  }
-
     function Page() {
 
       /**********************************************************************************
         2. Crie aqui as variáveis de estado que julgar necessárias
       **********************************************************************************/
-
-      const [infoCenso, setInfoCenso] = React.useState ({
-        area: undefined,
-        pop : undefined,
-        densPop: undefined,
-        catDens: undefined
-      })
-
-      const { area, pop, densPop, catDens } = infoCenso 
-
-      /*
-        quando abri o arquivo no Chrome para verificação há um erro no console que indica:
-        Uncaught ReferenceError: monitoraAlteracao is not defined
-        que foi a Função indicada para escutar as alterações do Imput no prop quandoAlterado do Componente
-      */
-      function monitoraAlteracao(event) { // verifica o evento
-        /* Faça as modificações necessárias na manipulação das variáveis de estado
-           nas linhas abaixo. */
-
-        if (event.target.id === 'area') setInfoCenso({...infoCenso, area: event.target.value})
-        else if (event.target.id === 'pop') setInfoCenso({...infoCenso, pop: event.target.value})
-      }
-
+      const [area, setArea] = React.useState()
+      const [populacao, setPopulacao] = React.useState()
+      const [densidadePop, setDensidadePop] = React.useState()
+      const [categoria, setCategoria] = React.useState()
 
       /**********************************************************************************
         3. Escreva aqui o código necessário para o useEffect()
-
         Nesse código, deverá ser feito o seguinte:
         - O cálculo da densidade populacional, igual a população dividida por área
         - A definição da categoria, conforme as regras:
@@ -111,50 +88,26 @@
         - Atualize as variáveis de estado apropriadas, para usar seu valor no terceiro
           componente
         - NÃO SE ESQUEÇA DAS DEPENDÊNCIAS!!!!
-      
       **********************************************************************************/
 
       React.useEffect(() => {
+        let dens, cat
 
-        /*
-          Definindas 2 variáveis temporárias como visto no exFix03,
-          como "pulo do gato", para evitar a atualização do State no meio da Condição e assim
-          não termos prejudicada a atualização das informações do Estado, pois sempre será repetido
-          primeiro ciclo do state, caso não o atualizemos somente no final da condição.
-        */
-        let catDensTemp, densPopTemp
+        if(isNaN(area) || isNaN(populacao)) dens = 'N/D'
+        else dens = populacao / area
 
-        if (isNaN(pop) || isNaN(area))  {
-          densPopTemp = '---'
-          catDensTemp = '---'  // verifico se os campos não estão vazios, senão:
-        }
-        else densPopTemp = pop / area // calculo a Densidade Populacional
+        if(dens === 'N/D') cat = ''
+        else if(dens < 100) cat = 'Baixa densidade'
+        else if(dens >= 100 && dens <= 1000) cat = 'Média densidade'
+        else cat = 'Alta densidade'
 
-        // abaixo faço as verificações das diferentes densidades
-        
-        if (densPopTemp < 100) {
-          catDensTemp = "Baixa Densidade";
-        }
-        else if (densPopTemp > 100 && densPopTemp < 1000) {
-          catDensTemp = "Média Densidade";
-        } // como proposto esta ficando de fora o próprio 100
+        setDensidadePop(dens)
+        setCategoria(cat)
 
-        else if (densPopTemp > 1000) {
-          catDensTemp = "Média Densidade";
-        } // como proposto está ficando de fora o próprio 1000
-         
-        else {
-          catDensTemp = "Insira Dados Válidos!" ; // caso dê 100 ou 1000, ou seja inserido um valor negativo pode ser exibido aqui, mas neste caso ficou como um alerta geral
-        }
+      }, [area, populacao])
 
-        setInfoCenso({...infoCenso, densPop: densPopTemp, catDens: catDensTemp})
-
-      }, [area, pop]) // somente será executado o useEffect quando houver modificação dos dados nas duas dependências indicadas aqui
-
-
-      // retorno do que será exibido na página através do Componente Page
       return (
-        <> {/* Uso de Fragment para poder inserir mais elementos no retorno */}
+        <>
           <h1>Densidade populacional</h1>
 
           <div id="world-map">
@@ -162,16 +115,11 @@
           </div>
 
           {/* Coloque aqui o primeiro componente */}
-
-          <CompArea id="area" textoLabel="Área (km²)" quandoAlterado={monitoraAlteracao} />
-
+          <PrimeiroComponente onInputChange={ event => setArea(event.target.value)} />
           {/* Coloque aqui o segundo componente */}
-
-          <CompPopulacao id="pop" textoLabel="População" quandoAlterado={monitoraAlteracao} />
-
+          <SegundoComponente onInputChange={ event => setPopulacao(event.target.value) } />
           {/* Coloque aqui o terceiro componente */}
-
-          <CompResult densPop={densPop} catDens={catDens} />
+          <TerceiroComponente densidadePop={densidadePop} categoria={categoria} />
 
         </>
       )
@@ -182,17 +130,13 @@
            Todo o CSS necessário já está no arquivo styles.css. Não é necessário fazer
            nenhuma alteração de estilo, exceto usar os nomes de classe corretos nos
            componentes.
-
         - A densidade e a categoria devem ser atualizadas imediatamente quando os inputs
           da área ou da população forem alterados
-
         - Alguns valores para testar:
-
         PAÍS            ÁREA              POPULAÇÃO       DENSIDADE CALCULADA
         Brasil          8510295,914       211755692       24.882294827333542    (Baixa d.)
         Japão           377975            126440000       334.51947880150806    (Média d.)
         Bangladesh      144000            163220762       1133.4775138888888    (Alta d.)
-
       **********************************************************************************/
 
     ReactDOM.render(<Page />, document.getElementById('root'))
@@ -204,7 +148,7 @@
 </html>
 
 <!--
-//    1. Atualização de estado
-//    2. Atualização do componente
-//    3. useEffect()
+    // 1. Atualização de estado
+    // 2. Atualização do componente
+    // 3. useEffect()
 -->
