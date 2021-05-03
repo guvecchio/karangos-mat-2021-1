@@ -30,6 +30,8 @@ import yellow from '@material-ui/core/colors/yellow';
 import red from '@material-ui/core/colors/red';
 import TopBar from './ui/TopBar'
 import FooterBar from './ui/FooterBar'
+import Box from '@material-ui/core/Box';
+import { makeStyles } from "@material-ui/core/styles";
 
 
 // define globalmente as cores primárias e secundárias do projeto
@@ -49,15 +51,38 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+
+  fundo: {
+    backgroundColor: theme.palette.background.default,
+    minHeight: '100vh', // 100% da altura da área de visualização
+    margin: '0 0 0 0'
+  }
+
+}))
+
+function Main() {
+  const classes = useStyles()
+
+    return (
+      <>
+      {/* altera as cores primárias e secundárias ThemeProvider */}
+      <Box className={classes.fundo}>
+          <TopBar></TopBar>
+          <FooterBar></FooterBar>
+      </Box>
+      </>
+    );
+  }
+
 function App() {
+
   return (
     <>
     {/* altera as cores primárias e secundárias ThemeProvider */}
-    <ThemeProvider theme={theme}>
-      <TopBar></TopBar>
-      <FooterBar></FooterBar>
-    </ThemeProvider>
-
+      <ThemeProvider theme={theme}>
+        <Main />
+      </ThemeProvider>
     </>
   );
 }
