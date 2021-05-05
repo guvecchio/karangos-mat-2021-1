@@ -32,6 +32,9 @@ import TopBar from './ui/TopBar'
 import FooterBar from './ui/FooterBar'
 import Box from '@material-ui/core/Box';
 import { makeStyles } from "@material-ui/core/styles";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import KarangosList from './routed/KarangosList';
+import KarangosForm from './routed/KarangosForm';
 
 
 // define globalmente as cores primárias e secundárias do projeto
@@ -56,7 +59,11 @@ const useStyles = makeStyles((theme) => ({
   fundo: {
     backgroundColor: theme.palette.background.default,
     minHeight: '100vh', // 100% da altura da área de visualização
-    margin: '0 0 0 0'
+  },
+  routed: {
+    padding: '25px',
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily
   }
 
 }))
@@ -68,8 +75,38 @@ function Main() {
       <>
       {/* altera as cores primárias e secundárias ThemeProvider */}
       <Box className={classes.fundo}>
-          <TopBar></TopBar>
-          <FooterBar></FooterBar>
+          
+          <BrowserRouter>
+          {/* inicia a região onde pode haver troca dinâmica de elementos
+            - links e demais elementos dinâmicos tem que estar dentro
+          
+          */}
+
+            <TopBar></TopBar>
+
+            <Box id="routed" className={classes.routed}>
+              
+              <Switch>
+
+              {/* 
+                Determina o elemtno que será exibido, de acordo com a rota.
+              */}
+
+                <Route path="/list">
+                  <KarangosList />
+                </Route>
+
+                <Route path="/new">
+                  <KarangosForm />
+                </Route>
+
+              </Switch>
+
+            </Box>
+            <FooterBar></FooterBar> {/* também pode ser exibido assim. */}
+          
+          </BrowserRouter>
+
       </Box>
       </>
     );
