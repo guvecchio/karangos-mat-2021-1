@@ -17,6 +17,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button'
 import FiberNewIcon from '@material-ui/icons/FiberNew'; // AddBoxIcon foi o usado na aula
 import { useHistory } from 'react-router-dom'; // pára buscar a rota
+import ConfirmDialog from '../ui/ConfirmDialog';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -45,7 +48,12 @@ export default function KarangosList() {
 
   // Variáveis que conterão dados PRECISAM ser inicializadas como vetores vazios
   const [karangos, setKarangos] = useState([])
+  const [deletable, setDeletable] = useState() // código do registro a ser excluído
+  const [dialogOpen, setDialogOpen] = useState(false) // o diálogo de confirmação está aberto
   const history = useHistory() // o history puxa a rota principal
+  const [sbOpen, setSbOpen] = useState(false)
+  const [sbSeverety, setSbSeverety] = useState('success')
+  const [sbMessage, setSbMessage] = useState('Exclusão realizada com sucesso')
 
   useEffect(() => {
     async function getData() {
@@ -61,8 +69,49 @@ export default function KarangosList() {
   }, []) // Quando a lista de dependências é um vetor vazio, o useEffect()
          // é executado apenas uma vez, no carregamento inicial do componente
 
+    async function deleteItem() {  
+      // se o usuário concordou com a exclusão
+      try {
+        await axios.delete('https://api.faustocintra.com.br/karangos/${deletable}')
+        setSbSeverety('success')
+        setSbMessage('Exclusão efetuada com sucesso.')
+      }
+      catch(error) {
+        setSbSeverety('error')
+        setSbMessage('ERRO:' + error.message)
+      }
+      setSbOpen(true) // Exibe o SnackBar
+    }
+    
+
+  function handleDialogClose(result) {
+    setDialogOpen(false)
+    
+    
+    if(result) deleteItem()
+  }
+
+  function handleDelete(id) {
+    setDeletable(id)
+    setDialogOpen(true)
+  }
+
+  function handleSbClose(){
+    setSbOpen(false) // fecha o SnackBar
+  }
+
   return (
     <>
+      <ConfirmDialog isOpen={dialogOpen} onClose={handleDialogClose}>
+        Deseja realmente excluir este Karango?
+      </ConfirmDialog>
+      
+      <Snackbar open={sbOpen} autoHideDuration={6000} onClose={handleSbClose}>
+        <MuiAlert elevation={6} variant="filled" onClose={handleSbClose} severity={sbSeverety}>
+            {sbMessage}
+        </MuiAlert>
+      </Snackbar>
+
       <h1>Listagem de Karangos</h1>
       <Toolbar className={classes.toolBar}>
         <Button color="secondary" 
@@ -110,7 +159,7 @@ export default function KarangosList() {
                 </IconButton>
               </TableCell>
               <TableCell align="center">
-                <IconButton aria-label="excluir">
+                <IconButton aria-label="excluir" onClick={() => handleDelete(karango.id)}>
                   <DeleteIcon color="error"/>
                 </IconButton>
               </TableCell>
