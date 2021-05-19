@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -15,7 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button'
-import FiberNewIcon from '@material-ui/icons/FiberNew'; // AddBoxIcon foi o usado na aula
+import FiberNewIcon from '@material-ui/icons/FiberNew'; //AddBoxIcon foi o utilizado em aula
 import { useHistory } from 'react-router-dom'; // pára buscar a rota
 import ConfirmDialog from '../ui/ConfirmDialog';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -50,38 +50,41 @@ export default function KarangosList() {
   const [karangos, setKarangos] = useState([])
   const [deletable, setDeletable] = useState() // código do registro a ser excluído
   const [dialogOpen, setDialogOpen] = useState(false) // o diálogo de confirmação está aberto
-  const history = useHistory() // o history puxa a rota principal
   const [sbOpen, setSbOpen] = useState(false)
-  const [sbSeverety, setSbSeverety] = useState('success')
+  const [sbSeverity, setSbSeverity] = useState('success')
   const [sbMessage, setSbMessage] = useState('Exclusão realizada com sucesso')
 
+  const history = useHistory() // o history puxa a rota principal
+
   useEffect(() => {
-    async function getData() {
-      try { // tenta buscar os dados
-        let response = await axios.get('https://api.faustocintra.com.br/karangos?by=marca,modelo') // by eu defino a ordenação
-        setKarangos(response.data)
-      }
-      catch(error) {
-        console.error(error)
-      }
-    }
     getData()
   }, []) // Quando a lista de dependências é um vetor vazio, o useEffect()
          // é executado apenas uma vez, no carregamento inicial do componente
 
-    async function deleteItem() {  
-      // se o usuário concordou com a exclusão
-      try {
-        await axios.delete('https://api.faustocintra.com.br/karangos/${deletable}')
-        setSbSeverety('success')
-        setSbMessage('Exclusão efetuada com sucesso.')
-      }
-      catch(error) {
-        setSbSeverety('error')
-        setSbMessage('ERRO:' + error.message)
-      }
-      setSbOpen(true) // Exibe o SnackBar
+  async function getData() {
+    try { // tenta buscar os dados
+      let response = await axios.get('https://api.faustocintra.com.br/karangos?by=marca,modelo') // by eu defino a ordenação
+      if(response.data.length > 0) setKarangos(response.data)
     }
+    catch(error) {
+      console.error(error)
+    }
+  }
+
+  async function deleteItem() {  
+    // se o usuário concordou com a exclusão
+    try {
+      await axios.delete(`https://api.faustocintra.com.br/karangos/${deletable}`)
+      getData() // atualiza os dados da tabela
+      setSbSeverity('success')
+      setSbMessage('Exclusão efetuada com sucesso.')
+    }
+    catch(error) {
+      setSbSeverity('error')
+      setSbMessage('ERRO:' + error.message)
+    }
+    setSbOpen(true) // Exibe o SnackBar
+  }
     
 
   function handleDialogClose(result) {
@@ -107,7 +110,7 @@ export default function KarangosList() {
       </ConfirmDialog>
       
       <Snackbar open={sbOpen} autoHideDuration={6000} onClose={handleSbClose}>
-        <MuiAlert elevation={6} variant="filled" onClose={handleSbClose} severity={sbSeverety}>
+        <MuiAlert elevation={6} variant="filled" onClose={handleSbClose} severity={sbSeverity}>
             {sbMessage}
         </MuiAlert>
       </Snackbar>

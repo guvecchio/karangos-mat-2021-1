@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
   fundo: {
     backgroundColor: theme.palette.background.default,
+    paddingBottom: '42px', // evita que o footer cubra o conteúdo
     minHeight: '100vh', // 100% da altura da área de visualização
   },
   routed: {
