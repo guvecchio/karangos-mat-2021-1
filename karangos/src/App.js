@@ -33,7 +33,7 @@ import FooterBar from './ui/FooterBar'
 import Box from '@material-ui/core/Box';
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import KarangosList from './routed/KarangosList';
+import KarangosList from './routed/KarangosList2';
 import KarangosForm from './routed/KarangosForm';
 
 
@@ -56,7 +56,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles((theme) => ({
 
-  fundo: {
+  main: {
     backgroundColor: theme.palette.background.default,
     paddingBottom: '42px', // evita que o footer cubra o conteúdo
     minHeight: '100vh', // 100% da altura da área de visualização
@@ -73,25 +73,15 @@ function Main() {
   const classes = useStyles()
 
     return (
-      <>
-      {/* altera as cores primárias e secundárias ThemeProvider */}
-      <Box className={classes.fundo}>
+ 
+      <Box className={classes.main}> {/* altera as cores primárias e secundárias ThemeProvider */}
           
-          <BrowserRouter>
-          {/* inicia a região onde pode haver troca dinâmica de elementos
-            - links e demais elementos dinâmicos tem que estar dentro
-          
-          */}
+          <BrowserRouter> {/* inicia a região onde pode haver troca dinâmica de elementos
+            - links e demais elementos dinâmicos tem que estar dentro */}
 
-            <TopBar></TopBar>
-
+            <TopBar />
             <Box id="routed" className={classes.routed}>
-              
-              <Switch>
-
-              {/* 
-                Determina o elemtno que será exibido, de acordo com a rota.
-              */}
+              <Switch> {/* Determina o elemtno que será exibido, de acordo com a rota. */}
 
                 <Route path="/list">
                   <KarangosList />
@@ -104,13 +94,11 @@ function Main() {
               </Switch>
 
             </Box>
-            <FooterBar></FooterBar> {/* também pode ser exibido assim. */}
+            <FooterBar /> {/* também pode ser exibido assim. */}
           
           </BrowserRouter>
-
       </Box>
-      </>
-    );
+    )
   }
 
 function App() {
