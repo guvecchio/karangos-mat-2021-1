@@ -1,28 +1,28 @@
-/* import logo from './logo.svg';
+/*
+import logo from './logo.svg';
 import './App.css';
 import Button from '@material-ui/core/Button'
 */
 
 /*
-
-    <div className="App">
-      <header className="App-header">
+  <div className="App">
+    <header className="App-header">
       <h1>Projeto Karangos</h1>
       <Button variant="contained" color="primary">Clique aqui</Button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <img src={logo} className="App-logo" alt="logo" />
+      <p>
+        Edit <code>src/App.js</code> and save to reload.
+      </p>
+      <a
+        className="App-link"
+        href="https://reactjs.org"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn React
+      </a>
+    </header>
+  </div>
 
 */
 import { createMuiTheme , ThemeProvider} from '@material-ui/core/styles';
@@ -38,10 +38,11 @@ import KarangosForm from './routed/KarangosForm';
 
 
 // define globalmente as cores primárias e secundárias do projeto
-// utilizamos os endereços:
+// utilizamos os endereços de documentação:
 // https://material-ui.com/pt/customization/theming/
 // https://www.materialpalette.com/colors
 // https://paletton.com/#uid=21C0u0koBw0eNKOk6C3uKu5vsmQ
+
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -81,7 +82,7 @@ function Main() {
 
             <TopBar />
             <Box id="routed" className={classes.routed}>
-              <Switch> {/* Determina o elemtno que será exibido, de acordo com a rota. */}
+              <Switch> {/* Determina o elemento que será exibido, de acordo com a rota. */}
 
                 <Route path="/list">
                   <KarangosList />
@@ -91,10 +92,15 @@ function Main() {
                   <KarangosForm />
                 </Route>
 
+               {/* :id é um parâmetro (espécie de variável de rota) */}
+                <Route path="/edit/:id">
+                  <KarangosForm />
+                </Route>
+
               </Switch>
 
             </Box>
-            <FooterBar /> {/* também pode ser exibido assim. */}
+            <FooterBar /> {/* também pode ser exibido assim fechando a tag na abertura mesmo. */}
           
           </BrowserRouter>
       </Box>
@@ -104,11 +110,15 @@ function Main() {
 function App() {
 
   return (
-    <>
-    {/* altera as cores primárias e secundárias ThemeProvider */}
+    <> {/* fragment para exibir mais de um Componente/Elemento */}
+
+    {/* altera as cores primárias e secundárias ThemeProvider, recebendo lá do -> const theme = createMuiTheme */}
+    {/* const useStyles = makeStyles((theme) também trabalha estilos do tema */}
+
       <ThemeProvider theme={theme}>
         <Main />
       </ThemeProvider>
+
     </>
   );
 }
