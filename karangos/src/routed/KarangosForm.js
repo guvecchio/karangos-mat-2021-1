@@ -402,7 +402,7 @@ export default function KarangosForm() {
                     <Button variant="contained" onClick={handleGoBack}>Voltar</Button>
                 </Toolbar>
 
-                {/*
+
                 
                 <div>
                 
@@ -410,13 +410,11 @@ export default function KarangosForm() {
                     <br />
                     currentId: {JSON.stringify(currentId)}
                     <br />
-                    isValid: {JSON.stringify(isValid)}
-                    <br />
                     isModified: {JSON.stringify(isModified)}
 
                 </div>
 
-                */}
+
 
             </form>
         </>

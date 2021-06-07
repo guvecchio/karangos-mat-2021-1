@@ -112,7 +112,7 @@ function App() {
   return (
     <> {/* fragment para exibir mais de um Componente/Elemento */}
 
-    {/* altera as cores primárias e secundárias ThemeProvider, recebendo lá do -> const theme = createMuiTheme */}
+    {/* altera as cores primárias e secundárias ThemeProvider, recebendo do -> const theme = createMuiTheme */}
     {/* const useStyles = makeStyles((theme) também trabalha estilos do tema */}
 
       <ThemeProvider theme={theme}>
