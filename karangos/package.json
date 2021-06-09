@@ -1,5 +1,6 @@
 {
   "name": "karangos",
+  "homepage": "https://guvecchio.github.io/karangos-mat-2021-1/karangos/build/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
