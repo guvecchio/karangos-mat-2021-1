@@ -403,7 +403,7 @@ export default function KarangosForm() {
                 </Toolbar>
 
 
-                
+                {/*
                 <div>
                 
                     {JSON.stringify(karango)}
@@ -413,7 +413,7 @@ export default function KarangosForm() {
                     isModified: {JSON.stringify(isModified)}
 
                 </div>
-
+                */}
 
 
             </form>
