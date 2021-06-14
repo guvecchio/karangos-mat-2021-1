@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/karangos-mat-2021-1/karangos/build/static/css/main.2ae47eeb.chunk.css",
+    "main.js": "/karangos-mat-2021-1/karangos/build/static/js/main.15f67fee.chunk.js",
+    "main.js.map": "/karangos-mat-2021-1/karangos/build/static/js/main.15f67fee.chunk.js.map",
+    "runtime-main.js": "/karangos-mat-2021-1/karangos/build/static/js/runtime-main.cd92623f.js",
+    "runtime-main.js.map": "/karangos-mat-2021-1/karangos/build/static/js/runtime-main.cd92623f.js.map",
+    "static/js/2.47bc290d.chunk.js": "/karangos-mat-2021-1/karangos/build/static/js/2.47bc290d.chunk.js",
+    "static/js/2.47bc290d.chunk.js.map": "/karangos-mat-2021-1/karangos/build/static/js/2.47bc290d.chunk.js.map",
+    "static/js/3.9d1a800a.chunk.js": "/karangos-mat-2021-1/karangos/build/static/js/3.9d1a800a.chunk.js",
+    "static/js/3.9d1a800a.chunk.js.map": "/karangos-mat-2021-1/karangos/build/static/js/3.9d1a800a.chunk.js.map",
+    "index.html": "/karangos-mat-2021-1/karangos/build/index.html",
+    "static/css/main.2ae47eeb.chunk.css.map": "/karangos-mat-2021-1/karangos/build/static/css/main.2ae47eeb.chunk.css.map",
+    "static/js/2.47bc290d.chunk.js.LICENSE.txt": "/karangos-mat-2021-1/karangos/build/static/js/2.47bc290d.chunk.js.LICENSE.txt",
+    "static/media/karangos.637f9a06.png": "/karangos-mat-2021-1/karangos/build/static/media/karangos.637f9a06.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd92623f.js",
+    "static/js/2.47bc290d.chunk.js",
+    "static/css/main.2ae47eeb.chunk.css",
+    "static/js/main.15f67fee.chunk.js"
+  ]
+}
